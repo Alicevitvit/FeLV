@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Форма для отправки данных</title>
+</head>
+<body>
+    <h1>Введите данные для предсказания</h1>
+    <form id="predictionForm">
+        <label for="hgb">HGB:</label>
+        <input type="text" id="hgb" name="hgb" required><br><br>
+
+        <label for="hct">HCT:</label>
+        <input type="text" id="hct" name="hct" required><br><br>
+
+        <label for="mcv">MCV:</label>
+        <input type="text" id="mcv" name="mcv" required><br><br>
+
+        <label for="rbc">RBC:</label>
+        <input type="text" id="rbc" name="rbc" required><br><br>
+
+        <button type="submit">Отправить</button>
+    </form>
+
+    <h2>Результат:</h2>
+    <p id="result"></p>
+
+    <script>
+        document.getElementById('predictionForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const formData = {
+                hgb: document.getElementById('hgb').value,
+                hct: document.getElementById('hct').value,
+                mcv: document.getElementById('mcv').value,
+                rbc: document.getElementById('rbc').value
+            };
+
+            fetch('/run-script', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData),
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('result').innerText = 'Результат: ' + data.result;
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+        });
+    </script>
+</body>
+</html>
