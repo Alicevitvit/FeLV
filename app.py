@@ -1,6 +1,8 @@
 from flask import Flask, request, jsonify, render_template
+from flask_sqlalchemy import SQLAlchemy
 import subprocess
 from classifier.main import get_prediction
+
 
 app = Flask(__name__)
 
